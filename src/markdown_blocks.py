@@ -1,3 +1,4 @@
+import re
 from textnode import TextNode, TextType
 from enum import Enum
 from htmlnode import ParentNode, LeafNode, text_node_to_html_node
@@ -53,7 +54,7 @@ def text_to_children(text):
 
     children = []
     for text_node in text_nodes:
-        html_node = text_node_to_html(text_node)
+        html_node = text_node_to_html_node(text_node)
         children.append(html_node)
     return children
 
@@ -115,3 +116,11 @@ def markdown_to_html_node(markdown):
         block_nodes.append(node)
 
     return ParentNode("div", block_nodes)
+
+
+
+def extract_title(markdown):
+    for line in markdown.split("\n"):
+        if line.startswith("# "):
+            return line[2:].strip()
+    raise Exception("No h1")

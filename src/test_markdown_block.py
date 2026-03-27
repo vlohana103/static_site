@@ -1,5 +1,5 @@
 import unittest
-from markdown_blocks import markdown_to_block, block_to_block_type, BlockType
+from markdown_blocks import markdown_to_block, block_to_block_type, BlockType, extract_title
 from textnode import TextNode, TextType
 
 class TestMarkdownToHtml(unittest.TestCase):
@@ -74,3 +74,12 @@ class TestBlockType(unittest.TestCase):
     def test_paragraph(self):
         block = "This is just a normal paragraph of text."
         self.assertEqual(block_to_block_type(block), BlockType.PARAGRAPH)
+
+
+class TestExtractTitle(unittest.TestCase):
+    def test_extract_title(self):
+        self.assertEqual(extract_title("# Hello"), "Hello")
+
+    def test_extract_no_h1(self):
+        with self.assertRaises(Exception):
+            extract_title("No heading here")
